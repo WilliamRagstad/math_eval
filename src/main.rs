@@ -63,10 +63,10 @@ fn eval_expr(iter: &mut Chars, bp: u8) -> Result<(f64, char), ParseFloatError> {
     }
     let op_bp = precedence(op);
     let (rhs, nc) = if bp > op_bp {
-        // Evaluate this expression and push it onto the stack, then evaluate the next expression
+        // Evaluate this expression and then evaluate the next expression
         eval_primary(iter)
     } else {
-        // Evaluate the next expression before this, then push this expression onto the stack
+        // Evaluate the next expression before this
         eval_expr(iter, op_bp)
     }?;
     println!("Evaluating: {} {} {}", lhs, op, rhs);
@@ -110,10 +110,10 @@ fn eval_num(iter: &mut Chars, c: char) -> Result<(f64, char), ParseFloatError> {
             has_digit = true;
             num += &c.to_string();
         } else {
-            println!("Found: {} (Next: {})", num, c);
+            // println!("Found: {} (Next: {})", num, c);
             return Ok((num.parse::<f64>().unwrap(), c));
         }
     }
-    println!("Found: {} (Next: EOL)", num);
+    // println!("Found: {} (Next: EOL)", num);
     return Ok((num.parse::<f64>().unwrap(), '\0'));
 }
