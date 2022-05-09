@@ -63,6 +63,7 @@ fn eval_expr(iter: &mut Chars, bp: u8) -> Result<(f64, char), ParseFloatError> {
         return Ok((lhs, op));
     }
     let op_bp = precedence(op);
+    println!("{} has bp {}", op, op_bp);
     let (rhs, nc) = if bp > op_bp {
         // Evaluate this expression and then evaluate the next expression
         eval_primary(iter)
